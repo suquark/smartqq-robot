@@ -16,27 +16,33 @@ def search(s):
     s1 = BeautifulSoup(d, "html.parser")
     return s1.p.text.encode('utf-8')
 
+"""
+
+3290969857 ha 群 487472872
+
+"""
+
 
 
 def group_message_hook(msg):
-    value = msg[u'value']
-    content = value[u'content'][1]
-    group_id = value[u'info_seq']
+    value = msg['value']
+    content = value['content'][1]
+    group_id = int(value['info_seq'])
+    group_uid = int(value['from_uin'])
+    print msg
     # speaker_id =
     try:
         print unicode(group_id) + u" : " + unicode(content)
-        if int(group_id) == 384350610 or int(group_id) == 2931677874:
+        if group_id == 487472872 or group_id == 384350610:
             content = content.encode('utf-8')
             # if content.startswith('?'):
             print '############'
             # w.send_group_msg_d(2931677874, u'Message received :' + unicode(content))
             print content[0]
             if content[0] == '?'.encode('utf-8') or content[0] == '?'.encode('utf-8'):
-                w.send_group_msg_d(2931677874, u"命中: ".encode('utf-8') + content[1:])
                 r = search(content)
-                a = u'自动搜索结果(%s): %s'.encode('utf-8') % (content[1:], r)
-                w.send_group_msg_d(2931677874, a)
-
+                a = u'(%s): %s'.encode('utf-8') % (content[1:], r)
+                w.send_group_msg_d(group_uid, a)
     except Exception, e:
         print e.message
 
@@ -58,7 +64,3 @@ if __name__ == "__main__":
     w.poll_msg_hook = poll_msg_hook
     w.login()
     w.listen()
-    #    print 'OK'
-    # except Exception, e:
-    #    print e
-# vim: tabstop=2 softtabstop=2 shiftwidth=2 expandtab
