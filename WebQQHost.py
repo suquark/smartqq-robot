@@ -1,48 +1,32 @@
 # -*- coding: utf-8 -*-
 import sys
 import os, sys, urllib, requests
-from bs4 import BeautifulSoup
-from WebQQ import WebQQ
 
+from WebQQ import WebQQ
+from robot_handler import *
 # import sys
 # sys.getdefaultencoding('utf-8')
 
 
-def search(s):
-    try:
-        d = requests.get(u'http://cn.bing.com/search?q=%s' % unicode(s)).text
-    except Exception, e:
-        d = requests.get(u'http://cn.bing.com/search?q=%s'.encode('utf-8') % s).text
-    s1 = BeautifulSoup(d, "html.parser")
-    return s1.p.text.encode('utf-8')
+
 
 """
 
-3290969857 ha 群 487472872
+ha 群 487472872
+robogame 459402307
 
 """
-
 
 
 def group_message_hook(msg):
-    value = msg['value']
-    content = value['content'][1]
-    group_id = int(value['info_seq'])
-    group_uid = int(value['from_uin'])
-    print msg
-    # speaker_id =
+    print "..."
+    group_id = int(msg['value']['info_seq'])
     try:
-        print unicode(group_id) + u" : " + unicode(content)
         if group_id == 487472872 or group_id == 384350610:
-            content = content.encode('utf-8')
-            # if content.startswith('?'):
-            print '############'
-            # w.send_group_msg_d(2931677874, u'Message received :' + unicode(content))
-            print content[0]
-            if content[0] == '?'.encode('utf-8') or content[0] == '?'.encode('utf-8'):
-                r = search(content)
-                a = u'(%s): %s'.encode('utf-8') % (content[1:], r)
-                w.send_group_msg_d(group_uid, a)
+            do_search(w, msg)
+        elif group_id == 459402307:
+            do_search(w, msg)
+            do_action(msg)
     except Exception, e:
         print e.message
 
