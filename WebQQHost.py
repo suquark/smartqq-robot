@@ -22,7 +22,7 @@ def group_message_hook(msg):
     print "..."
     group_id = int(msg['value']['info_seq'])
     try:
-        if group_id == 487472872 or group_id == 384350610:
+        if group_id == 344123287 or group_id == 384350610:
             do_search(w, msg)
         elif group_id == 459402307:
             do_search(w, msg)

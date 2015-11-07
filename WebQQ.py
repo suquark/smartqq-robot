@@ -30,19 +30,20 @@ class WebQQ(HttpClient):
 
         html = self.Get(self.initUrl + '0')
 
-        self.APPID = self.getReValue(html, r'var g_appid =encodeURIComponent\("(\d+)"\);', 'Get AppId Error', 1)
+        self.APPID = self.getReValue(html, r'g_appid=encodeURIComponent\("(\d+)"\)', 'Get AppId Error', 1)
+        #self.APPID=501004106
         self.html = html
         self.msgId = int(random.uniform(50790000, 60790000))
 
     def login(self):
         html = self.html
-        sign = self.getReValue(html, r'var g_login_sig=encodeURIComponent\("(.*?)"\);', 'Get Login Sign Error', 1)
+        sign = self.getReValue(html, r'g_login_sig=encodeURIComponent\("(.*?)"\)', 'Get Login Sign Error', 1)
         logging.info('get sign : %s', sign)
 
-        JsVer = self.getReValue(html, r'var g_pt_version=encodeURIComponent\("(\d+)"\);', 'Get g_pt_version Error', 1)
+        JsVer = self.getReValue(html, r'g_pt_version=encodeURIComponent\("(\d+)"\)', 'Get g_pt_version Error', 1)
         logging.info('get g_pt_version : %s', JsVer)
 
-        MiBaoCss = self.getReValue(html, r'var g_mibao_css=encodeURIComponent\("(.+?)"\);', 'Get g_mibao_css Error', 1)
+        MiBaoCss = self.getReValue(html, r'g_mibao_css=encodeURIComponent\("(.+?)"\)', 'Get g_mibao_css Error', 1)
         logging.info('get g_mibao_css : %s', sign)
         StarTime = self.date_to_millis(datetime.datetime.utcnow())
         T = 0

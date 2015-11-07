@@ -26,7 +26,7 @@ def do_search(w, msg):
     value = msg['value']
     content = value['content'][1].encode('utf-8')
     group_uid = int(value['from_uin'])
-    if content[0] == '?':
+    if content[0] == '?' or content[-1] == '?':
         r = Robot_API.Search(content[1:])
         a = '(%s): %s' % (content[1:], r)
         w.send_group_msg_d(group_uid, a)
